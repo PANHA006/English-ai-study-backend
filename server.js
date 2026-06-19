@@ -33,7 +33,9 @@ app.post('/api/upload', (req, res) => {
     const filename = `profile_${Date.now()}_${name || 'image.jpg'}`;
     const filePath = path.join(uploadsDir, filename);
     fs.writeFileSync(filePath, buffer);
-    const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${filename}`;
+    const host = req.get('host');
+    const protocol = host.includes('onrender.com') ? 'https' : req.protocol;
+    const fileUrl = `${protocol}://${host}/uploads/${filename}`;
     res.json({ success: true, url: fileUrl });
   } catch (error) {
     console.error('Upload error:', error);
