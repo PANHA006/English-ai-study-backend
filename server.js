@@ -33,7 +33,7 @@ app.post('/api/upload', (req, res) => {
     const filename = `profile_${Date.now()}_${name || 'image.jpg'}`;
     const filePath = path.join(uploadsDir, filename);
     fs.writeFileSync(filePath, buffer);
-    const fileUrl = `http://localhost:3000/uploads/${filename}`;
+    const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${filename}`;
     res.json({ success: true, url: fileUrl });
   } catch (error) {
     console.error('Upload error:', error);
